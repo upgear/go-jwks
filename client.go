@@ -27,21 +27,30 @@ func init() {
 	}
 }
 
-func New(endpoint string) *Client {
-	return &Client{
+// New returns a Client which is used to fetch keys from a supplied endpoint.
+// It will attempt to cache the keys returned before returning. If an error
+// occurs, it will return an error (with the instantiated Client).
+func New(endpoint string) (*Client, error) {
+	c := &Client{
 		endpoint: endpoint,
 		keys: cache{
 			kv:  make(map[string]interface{}),
 			mtx: &sync.RWMutex{},
 		},
 	}
+
+	return c, c.updateCache()
 }
 
+// Client fetchs and maintains a cache of keys from a public endpoint.
 type Client struct {
 	endpoint string
 	keys     cache
 }
 
+// GetKey returns a key for a given key id.
+// It first looks in the Client's cache and if it can not find a key it
+// will attempt fetch the key from the endpoint directly.
 func (c *Client) GetKey(kid string) (interface{}, error) {
 	key, ok := c.keys.get(kid)
 	if !ok {
