@@ -1,4 +1,4 @@
-package jwksclient
+package jwks
 
 import (
 	"net/http"
@@ -12,9 +12,12 @@ func TestNewClient(t *testing.T) {
 		return
 	}))
 
-	c := New(ts.URL)
-	key, err := c.GetKey("abc")
+	c, err := NewClient(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
 
+	key, err := c.GetKey("abc")
 	if err != nil {
 		t.Fatal(err)
 	}

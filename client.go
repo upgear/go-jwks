@@ -1,4 +1,4 @@
-package jwksclient
+package jwks
 
 import (
 	"crypto/tls"
@@ -27,10 +27,10 @@ func init() {
 	}
 }
 
-// New returns a Client which is used to fetch keys from a supplied endpoint.
+// NewClient returns a Client which is used to fetch keys from a supplied endpoint.
 // It will attempt to cache the keys returned before returning. If an error
 // occurs, it will return an error (with the instantiated Client).
-func New(endpoint string) (*Client, error) {
+func NewClient(endpoint string) (*Client, error) {
 	c := &Client{
 		endpoint: endpoint,
 		keys: cache{
