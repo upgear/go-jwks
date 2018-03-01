@@ -80,8 +80,8 @@ func (c *Client) updateCache() error {
 	return nil
 }
 
-func fetchJWKs(origin string) ([]jose.JsonWebKey, error) {
-	var ks jose.JsonWebKeySet
+func fetchJWKs(origin string) ([]jose.JSONWebKey, error) {
+	var ks jose.JSONWebKeySet
 
 	resp, err := httpClient.Get(origin)
 	if err != nil {
